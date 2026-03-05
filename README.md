@@ -1,66 +1,97 @@
 # Inventory Management System (Backend API)
 
-A backend inventory management system built with NestJS and PostgreSQL.
-This project is designed as an MVP to manage products and stock with secure authentication and role-based access control.
-
-The system will evolve into an enterprise-level architecture after the MVP phase.
-
+A backend inventory management system built with Node.js and PostgreSQL.
+This project is designed as a portfolio project to demonstrate clean architecture,
+secure authentication, role-based access control, and real-world API design.
 
 ## Tech Stack
 
-- NestJS
+- Node.js + Express
 - PostgreSQL
-- TypeORM
-- JWT Authentication
-- Class Validator
-- Swagger (for API documentation)
-- Docker (future)
+- JWT Authentication (Access Token + Refresh Token)
+- bcrypt (password hashing)
+- Swagger (API documentation)
+- Docker (planned)
 
 ## Architecture Overview
 
-The application follows a modular architecture using NestJS best practices.
+The application follows a modular MVC-style architecture.
 
 Main Modules:
 - Auth Module
 - Users Module
 - Products Module
+- Categories Module
+- Suppliers Module
+- Reports Module
 
 Each module contains:
-- Controller (handles HTTP requests)
-- Service (business logic)
-- DTOs (validation layer)
-- Entity (database mapping)
+- Router (handles HTTP requests and route definitions)
+- Controller (processes requests, calls services)
+- Service (business logic layer)
+- Model / Query (database interaction)
+- Middleware (validation, auth guards)
+
+## Database Design
+
+7 tables with clear relationships:
+
+- `roles` → `users` (one-to-many)
+- `users` → `refresh_tokens` (one-to-many)
+- `categories` → `products` (one-to-many)
+- `products` ↔ `suppliers` via `product_suppliers` (many-to-many)
+
+## ERD Diagram
+
+![ERD Diagram](./docs/inventory-management-system-erd.png)
 
 ## Project Goals
 
 - Implement clean modular architecture
-- Apply authentication and authorization
-- Validate all inputs
-- Handle business logic properly
-- Prepare for scalable enterprise upgrade
+- Apply JWT authentication with refresh token rotation
+- Enforce role-based access control (Admin / Manager / Staff)
+- Validate all inputs properly
+- Handle errors and edge cases consistently
+- Write clean, readable, production-aware code
 
+## Business Rules
 
-## Business Rules (MVP)
+- Product SKU must be unique across the system
+- Product price must be greater than zero
+- Product stock quantity cannot be negative
+- Each product belongs to exactly one category
+- A product can have multiple suppliers (and vice versa)
+- Only Admins can create or delete users
+- Refresh tokens are invalidated on logout (revoked flag)
+- Low-stock alerts trigger when stock_qty falls below low_stock_threshold
 
-- Product quantity cannot be negative.
-- Product price must be greater than zero.
-- Product name must be unique.
-- Only authenticated admins can manage products.
+## Features
 
-## MVP Features
+- Role-based authentication (Admin / Manager / Staff) with JWT
+- Refresh token support with logout invalidation
+- Product CRUD with category assignment
+- Category CRUD
+- Supplier CRUD with product linking
+- Reports: low-stock alerts, inventory value summary
+- Input validation and structured error responses
 
-- Admin authentication (JWT)
-- Product CRUD
-- Quantity tracking
-- Input validation
-- Error handling
+## Roles & Permissions
+
+| Action                  | Admin | Manager | Staff |
+|------------------------|-------|---------|-------|
+| Manage users            | ✅    | ❌      | ❌    |
+| Manage products         | ✅    | ✅      | ❌    |
+| Manage categories       | ✅    | ✅      | ❌    |
+| Manage suppliers        | ✅    | ✅      | ❌    |
+| View products & stock   | ✅    | ✅      | ✅    |
+| View reports            | ✅    | ✅      | ❌    |
 
 ## Future Improvements
 
-- Categories & Suppliers
-- Inventory Transactions
-- Role-based access (Admin / Staff)
-- Audit logs
-- Pagination & Filtering
-- Caching
+- Inventory transactions (purchase & sales history)
+- Audit logs (track who changed what and when)
+- Pagination & filtering on all list endpoints
+- Caching layer (Redis)
 - CI/CD pipeline
+- Docker Compose setup
+- Unit and integration tests
