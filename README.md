@@ -6,8 +6,9 @@ secure authentication, role-based access control, and real-world API design.
 
 ## Tech Stack
 
-- Node.js + Express
+- Node.js + Nestjs
 - PostgreSQL
+- TypeORM
 - JWT Authentication (Access Token + Refresh Token)
 - bcrypt (password hashing)
 - Swagger (API documentation)
