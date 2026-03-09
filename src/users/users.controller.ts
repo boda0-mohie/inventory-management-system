@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Req,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import type { Request } from 'express';
 import { UsersService } from './users.service';
 import { RegisterDto } from './dtos/register.dto';
@@ -10,6 +19,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthRolesGuard } from './guards/auth-role.guard';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { RefreshAuthGuard } from './guards/refresh-auth.guard';
+import { Roles } from './decorators/user-role.decorator';
+import { Role } from 'utils/enum';
 
 @Controller('api/users')
 export class UsersController {
@@ -45,6 +56,7 @@ export class UsersController {
 
   // GET: ~/api/users/me
   @Get('me')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
   me(@CurrentUser() user: type.JWTPayloadType) {
     return this.usersService.getCurrentUser(user.sub);

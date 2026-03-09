@@ -48,7 +48,7 @@ export class AuthRolesGuard implements CanActivate {
         const user = await this.usersService.findByEmail(payload.email)
         if (!user) return false
 
-        if(roles.includes(user.role.name as Role)) {
+        if(roles.includes(user.role)) {
             request['user'] = payload;
             return true
         }

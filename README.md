@@ -19,7 +19,6 @@ secure authentication, role-based access control, and real-world API design.
 The application follows a modular MVC-style architecture.
 
 Main Modules:
-- Auth Module
 - Users Module
 - Products Module
 - Categories Module
@@ -79,7 +78,7 @@ Each module contains:
 ## Roles & Permissions
 
 | Action                  | Admin | Manager | Staff |
-|------------------------|-------|---------|-------|
+|-------------------------|-------|---------|-------|
 | Manage users            | ✅    | ❌      | ❌    |
 | Manage products         | ✅    | ✅      | ❌    |
 | Manage categories       | ✅    | ✅      | ❌    |

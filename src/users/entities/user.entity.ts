@@ -2,31 +2,28 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { RoleEntity } from './role.entity';
 import { RefreshToken } from './refresh-token.entity';
+import { Role } from 'utils/enum';
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: false })
   name: string;
 
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: false })
   password_hash: string;
 
-  @ManyToOne(() => RoleEntity, (role) => role.users, { eager: true })
-  @JoinColumn({ name: 'role_id' })
-  role: RoleEntity;
+  @Column({ enum: Role, nullable: false, default: Role.STAFF })
+  role: Role;
 
   @OneToMany(() => RefreshToken, (token) => token.user)
   refreshTokens: RefreshToken[];

@@ -153,7 +153,7 @@ export class AuthService {
    */
   public async revokeRefreshTokens(userId: string) {
     await this.refreshTokenRepository.update(
-      { user: { id: userId as any }, revoked: false },
+      { user: { id: userId }, revoked: false },
       { revoked: true },
     );
   }
