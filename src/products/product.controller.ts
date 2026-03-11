@@ -21,6 +21,7 @@ import { AuthRolesGuard } from 'src/users/guards/auth-role.guard';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  // POST: /api/products 
   @Post()
   @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(AuthRolesGuard)
@@ -28,18 +29,28 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
+  // GET: /api/products
   @Get()
   @UseGuards(AuthGuard)
   findAll() {
     return this.productService.findAll();
   }
 
+  // GET: /api/products/:id
   @Get(':id')
   @UseGuards(AuthGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productService.findOne(id);
   }
 
+  // GET: /api/products/:name
+  @Get(':name')
+  @UseGuards(AuthGuard)
+  findByName(@Param('name') name: string) {
+    return this.productService.findByName(name);
+  }
+  
+  // PATCH: /api/products/:id
   @Patch(':id')
   @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(AuthRolesGuard)
@@ -50,6 +61,7 @@ export class ProductController {
     return this.productService.update(id, updateProductDto);
   }
 
+  // DELETE: /api/products/:id
   @Delete(':id')
   @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(AuthRolesGuard)

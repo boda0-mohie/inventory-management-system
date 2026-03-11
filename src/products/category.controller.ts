@@ -21,6 +21,7 @@ import { AuthRolesGuard } from 'src/users/guards/auth-role.guard';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  // POST: /api/categories
   @Post()
   @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(AuthRolesGuard)
@@ -28,18 +29,21 @@ export class CategoryController {
     return this.categoryService.create(createProductDto);
   }
 
+  // GET: /api/categories
   @Get()
   @UseGuards(AuthGuard)
   findAll() {
     return this.categoryService.findAll();
   }
 
+  // GET: /api/categories/:id
   @Get(':id')
   @UseGuards(AuthGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.categoryService.findOne(id);
+    return this.categoryService.findByCategoryId(id);
   }
 
+  // PATCH: /api/categories/:id
   @Patch(':id')
   @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(AuthRolesGuard)
@@ -50,6 +54,7 @@ export class CategoryController {
     return this.categoryService.update(id, updateProductDto);
   }
 
+  // DELETE: /api/categories/:id
   @Delete(':id')
   @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(AuthRolesGuard)

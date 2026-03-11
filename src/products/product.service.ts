@@ -14,10 +14,28 @@ export class ProductService {
     private readonly categoryService: CategoryService,
   ) {}
 
+  /**
+   * Find all products
+   * @returns Promise<Product[]>
+   */
   public async findAll(): Promise<Product[]> {
     return this.productRepository.find();
   }
 
+  /**
+   * Find products by name
+   * @param name 
+   * @returns Promise<Product[]>
+   */
+  public async findByName(name: string): Promise<Product[]> {
+    return this.productRepository.find({ where: { name } });
+  }
+
+  /**
+   * Find one product by id
+   * @param id 
+   * @returns Promise<Product>
+   */
   public async findOne(id: number): Promise<Product> {
     const product = await this.productRepository.findOne({ where: { id } });
     if (!product) {
@@ -26,6 +44,11 @@ export class ProductService {
     return product;
   }
 
+  /**
+   * Create a new product
+   * @param productDto 
+   * @returns Promise<Product>
+   */
   public async create(productDto: CreateProductDto): Promise<Product> {
     const {
       name,
@@ -50,6 +73,12 @@ export class ProductService {
     return this.productRepository.save(product);
   }
 
+  /**
+   * Update a product by id
+   * @param id 
+   * @param productDto 
+   * @returns Promise<Product>
+   */
   public async update(
     id: number,
     productDto: UpdateProductDto,
@@ -58,6 +87,11 @@ export class ProductService {
     return this.productRepository.save({ ...product, ...productDto });
   }
 
+  /**
+   * Delete a product by id
+   * @param id 
+   * @returns Promise<void>
+   */
   public async delete(id: number): Promise<void> {
     const product = await this.findOne(id);
     await this.productRepository.remove(product);
