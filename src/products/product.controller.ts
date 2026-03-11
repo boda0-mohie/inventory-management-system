@@ -23,24 +23,26 @@ export class ProductController {
 
   @Post()
   @Roles(Role.ADMIN, Role.MANAGER)
-  @UseGuards(AuthGuard, AuthRolesGuard)
+  @UseGuards(AuthRolesGuard)
   create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   findAll() {
     return this.productService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(Role.ADMIN, Role.MANAGER)
-  @UseGuards(AuthGuard, AuthRolesGuard)
+  @UseGuards(AuthRolesGuard)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto,
@@ -50,7 +52,7 @@ export class ProductController {
 
   @Delete(':id')
   @Roles(Role.ADMIN, Role.MANAGER)
-  @UseGuards(AuthGuard, AuthRolesGuard)
+  @UseGuards(AuthRolesGuard)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.productService.delete(id);
   }

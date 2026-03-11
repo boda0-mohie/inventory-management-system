@@ -29,18 +29,20 @@ export class CategoryController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   findAll() {
     return this.categoryService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(Role.ADMIN, Role.MANAGER)
-  @UseGuards(AuthGuard, AuthRolesGuard)
+  @UseGuards(AuthRolesGuard)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateCategoryDto,
@@ -50,7 +52,7 @@ export class CategoryController {
 
   @Delete(':id')
   @Roles(Role.ADMIN, Role.MANAGER)
-  @UseGuards(AuthGuard, AuthRolesGuard)
+  @UseGuards(AuthRolesGuard)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.delete(id);
   }

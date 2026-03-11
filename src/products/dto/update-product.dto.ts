@@ -12,12 +12,10 @@ export class UpdateProductDto {
     description?: string;
 
     @IsOptional()
-    @MinLength(1)
     @IsNumber()
     price?: number;
 
     @IsOptional()
-    @MinLength(1)
     @IsNumber()
     stock?: number;
 
@@ -26,7 +24,6 @@ export class UpdateProductDto {
     category_id?: number;
 
     @IsOptional()
-    @MinLength(1)
     @IsNumber()
     low_stock_threshold?: number;
 }

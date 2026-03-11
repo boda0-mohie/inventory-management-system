@@ -12,12 +12,10 @@ export class CreateProductDto {
     description: string;
 
     @IsNotEmpty()
-    @MinLength(1)
     @IsNumber()
     price: number;
 
     @IsNotEmpty()
-    @MinLength(1)
     @IsNumber()
     stock: number;
 
@@ -26,7 +24,6 @@ export class CreateProductDto {
     category_id: number;
 
     @IsNotEmpty()
-    @MinLength(1)
     @IsNumber()
     low_stock_threshold: number;
 }
