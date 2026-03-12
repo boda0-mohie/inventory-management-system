@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -32,8 +33,13 @@ export class ProductController {
   // GET: /api/products
   @Get()
   @UseGuards(AuthGuard)
-  findAll() {
-    return this.productService.findAll();
+  findAll(
+    @Query('category_id') category_id?: number,
+    @Query('name') name?: string,
+    @Query('minPrice') minPrice?: string,
+    @Query('maxPrice') maxPrice?: string,
+  ) {
+    return this.productService.getAll(category_id, name, minPrice, maxPrice);
   }
 
   // GET: /api/products/:id
@@ -41,13 +47,6 @@ export class ProductController {
   @UseGuards(AuthGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productService.findOne(id);
-  }
-
-  // GET: /api/products/:name
-  @Get(':name')
-  @UseGuards(AuthGuard)
-  findByName(@Param('name') name: string) {
-    return this.productService.findByName(name);
   }
   
   // PATCH: /api/products/:id

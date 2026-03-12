@@ -42,12 +42,9 @@ export class CategoryService {
      * @returns Promise<Product[]>
      */
     public async findByCategoryId(category_id: number): Promise<Product[]> {
-        const category = await this.categoryRepository.findOne({ where: { id: category_id } });
-        if (!category) {
-            throw new BadRequestException('Category not found');
-        }
+        const category = await this.findOne(category_id);
         const products = await this.productRepository.find({
-            where: { category: { id: category_id } },
+            where: { category: { id: category.id } },
             relations: { category: true }
         });
         return products;

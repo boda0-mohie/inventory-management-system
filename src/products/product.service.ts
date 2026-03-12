@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Product } from './entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Like, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { CategoryService } from './category.service';
@@ -15,25 +15,29 @@ export class ProductService {
   ) {}
 
   /**
-   * Find all products
-   * @returns Promise<Product[]>
-   */
-  public async findAll(): Promise<Product[]> {
-    return this.productRepository.find();
-  }
-
-  /**
-   * Find products by name
+   * Return All Products For Data Store
+   * @param category_id 
    * @param name 
-   * @returns Promise<Product[]>
+   * @param minPrice 
+   * @param maxPrice 
+   * @returns 
    */
-  public async findByName(name: string): Promise<Product[]> {
-    return this.productRepository.find({ where: { name } });
+  public getAll(category_id?: number, name?: string, minPrice?: string, maxPrice?: string) {
+    const filters = {
+      ...(category_id ? { category: { id: category_id } } : {}),
+      ...(name ? { name: Like(`%${name}%`) } : {}),
+      ...(minPrice && maxPrice ? { price: Between(+minPrice, +maxPrice) } : {}),
+    };
+
+    return this.productRepository.find({
+      where: filters,
+      relations: { category: true },
+    });
   }
 
   /**
    * Find one product by id
-   * @param id 
+   * @param id
    * @returns Promise<Product>
    */
   public async findOne(id: number): Promise<Product> {
@@ -46,7 +50,7 @@ export class ProductService {
 
   /**
    * Create a new product
-   * @param productDto 
+   * @param productDto
    * @returns Promise<Product>
    */
   public async create(productDto: CreateProductDto): Promise<Product> {
@@ -75,8 +79,8 @@ export class ProductService {
 
   /**
    * Update a product by id
-   * @param id 
-   * @param productDto 
+   * @param id
+   * @param productDto
    * @returns Promise<Product>
    */
   public async update(
@@ -89,7 +93,7 @@ export class ProductService {
 
   /**
    * Delete a product by id
-   * @param id 
+   * @param id
    * @returns Promise<void>
    */
   public async delete(id: number): Promise<void> {
