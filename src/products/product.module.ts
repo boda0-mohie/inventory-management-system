@@ -5,7 +5,6 @@ import { ProductService } from './product.service';
 import { Category } from './entities/category.entity';
 import { CategoryService } from './category.service';
 import { UsersModule } from 'src/users/users.module';
-import { JwtModule } from '@nestjs/jwt';
 import { ProductController } from './product.controller';
 import { CategoryController } from './category.controller';
 

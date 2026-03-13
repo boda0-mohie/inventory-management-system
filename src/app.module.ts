@@ -6,11 +6,13 @@ import { typeOrmConfig } from './config/database.config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ProductModule } from './products/product.module';
+import { SuppliersModule } from './suppliers/suppliers.module';
 
 @Module({
   imports: [
     UsersModule,
     ProductModule,
+    SuppliersModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
