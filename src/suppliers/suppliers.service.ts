@@ -62,8 +62,11 @@ export class SuppliersService {
     return await this.supplierRepository.save(supplier);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number) {
     const supplier = await this.findOne(id);
     await this.supplierRepository.remove(supplier);
+    return{
+      message: `Supplier with ID ${id} deleted successfully`,
+    }
   }
 }

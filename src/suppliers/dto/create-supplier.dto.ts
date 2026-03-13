@@ -25,7 +25,4 @@ export class CreateSupplierDto {
     @IsNotEmpty()
     address: string;
 
-    @IsString()
-    @IsNotEmpty()
-    created_by: string;
 }

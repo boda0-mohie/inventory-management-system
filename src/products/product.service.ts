@@ -96,8 +96,11 @@ export class ProductService {
    * @param id
    * @returns Promise<void>
    */
-  public async delete(id: number): Promise<void> {
+  public async delete(id: number) {
     const product = await this.findOne(id);
     await this.productRepository.remove(product);
+    return {
+      message: `Product with ID ${id} deleted successfully`,
+    };
   }
 }
