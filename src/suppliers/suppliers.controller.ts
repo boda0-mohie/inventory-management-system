@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SuppliersService } from './suppliers.service';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
@@ -18,6 +19,8 @@ import { AuthRolesGuard } from 'src/users/guards/auth-role.guard';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import * as types from 'utils/type';
 
+@ApiTags('suppliers')
+@ApiBearerAuth()
 @Controller('api/suppliers')
 export class SuppliersController {
   constructor(private readonly suppliersService: SuppliersService) {}
@@ -26,6 +29,8 @@ export class SuppliersController {
   @Post()
   @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(AuthRolesGuard)
+  @ApiOperation({ summary: 'Create a new supplier' })
+  @ApiResponse({ status: 201, description: 'The supplier has been successfully created.' })
   create(
     @Body() createSupplierDto: CreateSupplierDto,
     @CurrentUser() payload: types.JWTPayloadType,

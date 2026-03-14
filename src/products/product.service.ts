@@ -22,7 +22,7 @@ export class ProductService {
    * @param maxPrice 
    * @returns 
    */
-  public getAll(category_id?: number, name?: string, minPrice?: string, maxPrice?: string) {
+  public async getAll(category_id?: number, name?: string, minPrice?: string, maxPrice?: string) {
     const filters = {
       ...(category_id ? { category: { id: category_id } } : {}),
       ...(name ? { name: Like(`%${name}%`) } : {}),
