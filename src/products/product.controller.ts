@@ -52,8 +52,8 @@ export class ProductController {
   @ApiResponse({ status: 200, description: 'Return all products.' })
   @ApiQuery({ name: 'category_id', required: false, type: Number })
   @ApiQuery({ name: 'name', required: false, type: String })
-  @ApiQuery({ name: 'minPrice', required: false, type: Number })
-  @ApiQuery({ name: 'maxPrice', required: false, type: Number })
+  @ApiQuery({ name: 'minPrice', required: false, type: String })
+  @ApiQuery({ name: 'maxPrice', required: false, type: String })
   findAll(
     @Query('category_id') category_id?: number,
     @Query('name') name?: string,
