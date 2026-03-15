@@ -7,12 +7,14 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ProductModule } from './products/product.module';
 import { SuppliersModule } from './suppliers/suppliers.module';
+import { StockMovementsModule } from './stock_movements/stock_movements.module';
 
 @Module({
   imports: [
     UsersModule,
     ProductModule,
     SuppliersModule,
+    StockMovementsModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
