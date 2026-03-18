@@ -25,6 +25,12 @@ export class StockMovementsService {
     private readonly suppliersService: SuppliersService,
   ) {}
 
+  /**
+   * Create a new stock movement
+   * @param createDto create an stock movement (product_id, type, quantity, supplier_id, reference, remarks)
+   * @param userId user id
+   * @returns stock movement
+   */
   async create(createDto: CreateStockMovementDto, userId: string) {
     const { product_id, type, quantity, supplier_id, reference, remarks } =
       createDto;
