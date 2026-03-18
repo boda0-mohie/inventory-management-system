@@ -87,22 +87,29 @@ export class StockMovementsService {
   }
 
   async findAll(product_id?: number, type?: MovementType) {
-    const query = this.stockMovementRepository
-      .createQueryBuilder('movement')
-      .leftJoinAndSelect('movement.product', 'product')
-      .leftJoinAndSelect('movement.user', 'user')
-      .leftJoinAndSelect('movement.supplier', 'supplier');
-
-    if (product_id) {
-      query.andWhere('product.id = :product_id', { product_id });
+    const product = product_id ? await this.productService.findOne(product_id) : undefined;
+    if(product){
+      return await this.stockMovementRepository.find({
+        where: {
+          product,
+          type,
+        },
+        relations: {
+          product: true,
+          user: true,
+          supplier: true,
+        },
+      });
     }
-
-    if (type) {
-      query.andWhere('movement.type = :type', { type });
-    }
-
-    query.orderBy('movement.created_at', 'DESC');
-
-    return await query.getMany();
+    return await this.stockMovementRepository.find({
+      where: {
+        type,
+      },
+      relations: {
+        product: true,
+        user: true,
+        supplier: true,
+      },
+    });
   }
 }
