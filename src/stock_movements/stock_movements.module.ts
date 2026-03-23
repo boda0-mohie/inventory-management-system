@@ -19,5 +19,6 @@ import { SuppliersModule } from 'src/suppliers/suppliers.module';
   ],
   controllers: [StockMovementsController],
   providers: [StockMovementsService],
+  exports: [StockMovementsService],
 })
 export class StockMovementsModule {}

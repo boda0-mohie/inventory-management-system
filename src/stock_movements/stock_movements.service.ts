@@ -4,16 +4,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { Repository } from 'typeorm';
 import { StockMovement } from './entities/stock-movement.entity';
-import { Product } from 'src/products/entities/product.entity';
-import { User } from 'src/users/entities/user.entity';
 import { Supplier } from 'src/suppliers/entities/supplier.entity';
 import { ProductService } from 'src/products/product.service';
 import { UsersService } from 'src/users/users.service';
 import { SuppliersService } from 'src/suppliers/suppliers.service';
 import { CreateStockMovementDto } from './dto/create-stock-movement.dto';
 import { MovementType } from 'utils/enum';
+import { UpdateStockMovementDto } from './dto/update-stock-movement.dto';
 
 @Injectable()
 export class StockMovementsService {
@@ -86,6 +85,12 @@ export class StockMovementsService {
     return await this.stockMovementRepository.save(stockMovement);
   }
 
+  /**
+   * Get a list of stock movements
+   * @param product_id product id
+   * @param type movement type
+   * @returns list of stock movements
+   */
   async findAll(product_id?: number, type?: MovementType) {
     const product = product_id ? await this.productService.findOne(product_id) : undefined;
     if(product){
@@ -111,5 +116,20 @@ export class StockMovementsService {
         supplier: true,
       },
     });
+  }
+
+  async findOne(id: number) {
+    const stockMovement = await this.stockMovementRepository.findOne({
+      where: { id },
+      relations: {
+        product: true,
+        user: true,
+        supplier: true,
+      },
+    });
+    if (!stockMovement) {
+      throw new NotFoundException(`Stock movement with ID ${id} not found`);
+    }
+    return stockMovement;
   }
 }

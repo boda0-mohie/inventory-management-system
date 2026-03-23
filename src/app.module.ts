@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ProductModule } from './products/product.module';
 import { SuppliersModule } from './suppliers/suppliers.module';
 import { StockMovementsModule } from './stock_movements/stock_movements.module';
+import { PurchasesModule } from './purchases/purchases.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { StockMovementsModule } from './stock_movements/stock_movements.module';
     ProductModule,
     SuppliersModule,
     StockMovementsModule,
+    PurchasesModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

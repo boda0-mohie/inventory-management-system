@@ -9,3 +9,9 @@ export enum MovementType {
   OUT = 'OUT',
   ADJUSTMENT = 'ADJUSTMENT',
 }
+
+export enum PurchaseStatus {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
