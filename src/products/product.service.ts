@@ -88,7 +88,14 @@ export class ProductService {
     productDto: UpdateProductDto,
   ): Promise<Product> {
     const product = await this.findOne(id);
-    return this.productRepository.save({ ...product, ...productDto });
+    const {name, description, stock, category_id, low_stock_threshold, price} = productDto
+    product.name = name ?? product.name
+    product.description = description ?? product.description
+    product.stock = stock ?? product.stock
+    product.category = category_id ? await this.categoryService.findOne(category_id) : product.category
+    product.low_stock_threshold = low_stock_threshold ?? product.low_stock_threshold
+    product.price = price ?? product.price
+    return this.productRepository.save(product);
   }
 
   /**

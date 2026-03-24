@@ -68,7 +68,11 @@ export class StockMovementsService {
     }
 
     product.stock = newStock;
-    await this.productService.update(product_id, product);
+
+    await this.productService.update(product_id, {
+      category_id: product.category.id,
+      stock: newStock
+    });
 
     const stockMovement = this.stockMovementRepository.create({
       product,
